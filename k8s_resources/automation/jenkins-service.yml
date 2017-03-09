@@ -1,0 +1,30 @@
+---
+# Jenkins UI Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-ui
+  namespace: dev-ops
+spec:
+  selector:
+    k8s-app: jenkins
+  ports:
+  - name: jenkins-ui
+    port: 8080
+    nodePort: 32080
+  type: NodePort
+---
+# Jenkins Discovery Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-discovery
+  namespace: dev-ops
+spec:
+  selector:
+    k8s-app: jenkins
+  ports:
+  - name: jenkins-discovery
+    port: 50000
+    nodePort: 32500
+  type: NodePort

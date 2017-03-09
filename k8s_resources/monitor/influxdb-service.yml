@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    task: monitoring
+    k8s-app: influxdb
+  name: monitoring-influxdb
+  namespace: dev-ops
+spec:
+  ports:
+  - name: influxdb-api
+    port: 8086
+    targetPort: 8086
+    nodePort: 32086
+  - name: influxdb-admin
+    port: 8083
+    targetPort: 8083
+    nodePort: 32083
+  selector:
+    k8s-app: influxdb
+  type: NodePort

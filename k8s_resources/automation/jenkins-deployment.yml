@@ -1,0 +1,47 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: jenkins
+  namespace: dev-ops
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        task: automation
+        k8s-app: jenkins
+    spec:
+      containers:
+      - name: jenkins
+        image: jenkins
+        ports:
+        - name: port01
+          containerPort: 8080
+          protocol: TCP
+        - name: port02
+          containerPort: 50000
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /login
+            port: 8080
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 2
+          failureThreshold: 5
+        volumeMounts:
+        - mountPath: /var/jenkins_home
+          name: jenkins-data
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1000Mi
+          requests:
+            cpu: 500m
+            memory: 1000Mi
+      volumes:
+      - name: jenkins-data
+        emptyDir: {}
+      nodeSelector: 
+        node-type: master

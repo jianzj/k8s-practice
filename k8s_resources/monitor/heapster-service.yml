@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    task: monitoring
+    k8s-app: heapster
+  name: heapster
+  namespace: dev-ops
+spec:
+  ports:
+  - port: 80
+    targetPort: 8082
+    nodePort: 31080
+  selector:
+    k8s-app: heapster
+  type: NodePort

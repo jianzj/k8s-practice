@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: alertmanager
+  namespace: dev-ops
+spec:
+  ports:
+    - port: 9093
+      name: alertmanager-port
+      protocol: TCP
+      nodePort: 32093
+      targetPort: 9093
+  selector:
+    k8s-app: prometheus-alertmanager
+  type: NodePort
